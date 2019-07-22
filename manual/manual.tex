@@ -16,7 +16,7 @@
     linkbordercolor=red
  } 
  
- \title{\textbf{A computational EXFOR database} \\[2ex] User manual}
+ \title{\textbf{Yet another computational\\ EXFOR database} \\[2ex] User manual}
  \date{July 22, 2019}
  \author{Georg Schnabel \\ \href{mailto:georg.schnabel@nucleardata.com}{georg.schnabel@nucleardata.com}}
  
@@ -35,13 +35,17 @@
  \newpage 
 
  \section{Introduction}
- The EXFOR library \footnote{N. Otsuka, E. Dupont, V. Semkova et al., Towards a More Complete and Accurate Experimental Nuclear Reaction Data Library (EXFOR): International Collaboration Between Nuclear Reaction Data Centres (NRDC), Nuclear Data Sheets 120, 272-276, 2014, \href{http://dx.doi.org/10.1016/j.nds.2014.07.065}{DOI: 10.1016/j.nds.2014.07.065}} is an important source of information in the domain of nuclear physics.
+ The EXFOR library\footnote{N. Otsuka, E. Dupont, V. Semkova et al., Towards a More Complete and Accurate Experimental Nuclear Reaction Data Library (EXFOR): International Collaboration Between Nuclear Reaction Data Centres (NRDC), Nuclear Data Sheets 120, 272-276, 2014, \href{http://dx.doi.org/10.1016/j.nds.2014.07.065}{DOI: 10.1016/j.nds.2014.07.065}} is an important source of information in the domain of nuclear physics.
  Interfaces, such as the IAEA search form\footnote{\url{https://www-nds.iaea.org/exfor/}}, enable experimentalists and evaluators to conveniently locate and retrieve data.
- Ongoing efforts to make evaluations reproducible suggest that a streamlined and programmatic way to access the data including bibliographical details would be a helpful complement to existing interfaces and tools.
- Anticipating the increasing need of programmatic access in the future, the complete EXFOR library has been converted to a MongoDB database.
+ Ongoing efforts to make evaluations reproducible suggest that the streamlined and programmatic way to access the data in the EXFOR library including bibliographical details helps many users.
+ To this end, computational formats, such as C4\footnote{\url{https://www-nds.iaea.org/nrdc/basics/exfor-basics-3.html\#Computational_Format_C4}}, are developed and distributed by the nuclear data section of the IAEA and some other NRDCs.
+ 
+ Anticipating the increasing need of programmatic access and new use cases in the future, the complete EXFOR library has been converted to a MongoDB database.
  As most of the popular high-level languages provide facilities to retrieve and modify data in a MongoDB database, programmatic access to any data (cross sections, bibliography, etc.) becomes very convenient.
 
-  This document describes the installation of the EXFOR library as a MongoDB database (occasionally referred to as computational EXFOR database) on your local computer or cluster and how to use it from R and Python.
+  This document describes the installation of the EXFOR library as a MongoDB database on your local computer or cluster and how to use it from R and Python.
+  Being confessedly unoriginal, we refer to this database sometimes as \textit{Yet another computational EXFOR database} (YacoX4) to acknowledge existing formats and tools provided by the NRDCs.  
+  
   The installation is described in~\cref{sec:install_EXFOR}.
   Some introductory usage examples for R and Python are provided in~\cref{sec:usage_examples}.
  Details about the choices made for the conversion from the original EXFOR library to a MongoDB database are discussed in~\cref{sec:conversion_details}.
@@ -51,7 +55,7 @@ As a final introductory note, please do not hesitate to get in touch if you have
 All software components needed for installing and running the database are open-source.
 Feel free to inspect them and to modify them according to your specific needs.
 
- \section{Installation of the computational EXFOR database}
+ \section{Installation of the MonoDB EXFOR database}
  \label{sec:install_EXFOR}
 
  During the installation process, several tasks are performed:
@@ -69,7 +73,7 @@ Afterwards building and launching the database are described.
 
  \subsection{About Docker}
  \label{subsec:about_docker}
- The Docker software is a prerequisite for the installation process of the computational EXFOR database as outlined in this document.
+ The Docker software is a prerequisite for the installation process of the MongoDB EXFOR database as outlined in this document.
  The Docker software can be loosely described as an application to manage light-weight virtual machines on your computer.
  A virtual machine is the simulation of a specific computer system on top of your base system.
  For instance, within a virtual machine you may run Linux even though the operating system on your computer is Linux.
@@ -89,7 +93,7 @@ Since software in the container cannot access anything outside the container, th
 The official Docker website is located at \url{https://www.docker.com}.
 Please consult the information on this website for more information about Docker.
 In particular, the installation of the Docker Community Edition (CE), which is free of charge, is detailed at \url{https://docs.docker.com/install/}.
-The Docker application is an essential requirement to perform the installation of the computational EXFOR database as described in this document.
+The Docker application is an essential requirement to perform the installation of the MongoDB EXFOR database as described in this document.
 Whether Docker is installed on your system can be checked by running in a terminal
 \begin{verbatim}
   docker version
@@ -108,14 +112,14 @@ If Docker is installed, you should see information about the installed Docker ve
  \\[2ex]
  \noindent 
  Unpacking creates a new folder \path{compEXFOR-docker-master}.
- If you want to enable authentication to access the computational EXFOR database to be created, open the file \path{install_all.sh} present in this folder in a text editor. At the beginning of this file are the two lines
+ If you want to enable authentication to access the MongoDB EXFOR database to be created, open the file \path{install_all.sh} present in this folder in a text editor. At the beginning of this file are the two lines
 \begin{verbatim}
   db_user=""
   db_password=""
 \end{verbatim}
 Change the username and the password between the quotation marks to your liking.
-These credentials will be needed to connect to the computational EXFOR database and to access information.
-In the default configuration above, authentication is disabled and everyone on the local computer can access and manipulate the information in the computational EXFOR database.
+These credentials will be needed to connect to the MongoDB EXFOR database and to access information.
+In the default configuration above, authentication is disabled and everyone on the local computer can access and manipulate the information in the MongoDB EXFOR database.
 
 
  Depending on your internet speed, the following instruction may take a while (say half an hour).
@@ -127,7 +131,7 @@ Then in the terminal run
 \end{verbatim}
  Please note that the final point is part of the command.
  This instruction creates a so-called \textit{Docker image} by downloading all required components (e.g., MongoDb, R, conversion scripts, etc.) from various resources on the net and assembling them as a Docker image.
- If everything went well, the computational EXFOR database is now successfully installed on your computer.
+ If everything went well, the MongoDB EXFOR database is now successfully installed on your computer.
  If you wish, you can delete the folder \path{compEXFOR-docker-master} now because it was only needed for the creation of the Docker image.
  Another good reason to delete this folder is if you have specified authentication credentials and don't want them to reside on your disk in clear text.
 
@@ -149,7 +153,7 @@ Then in the terminal run
   If you have already a MongoDB server running on your computer and listening on the default port, you need to change this number to something else, e.g., 27018.  
  After a few seconds, you will see a command prompt starting with \verb#root@# followed by some long hexadecimal string.
  You are in a Linux session \textit{inside} the container.
- The container is running and the computational EXFOR database should be accessible.
+ The container is running and the MongoDB EXFOR database should be accessible.
  At this stage, you can jump to the section with examples to get a brief introduction how to interact with the database from R or Python.
  To shutdown the container, run the command (inside the container)
 \begin{verbatim}
@@ -172,7 +176,7 @@ Finally, to stop a container from the terminal (\textit{not} inside the containe
 \begin{verbatim}
   docker stop compexfor-cont
 \end{verbatim}
-These are the essential commands provided by the Docker application necessary to set up the computational EXFOR database.
+These are the essential commands provided by the Docker application necessary to set up the MongoDB EXFOR database.
 If you want to learn more about Docker and how to manage images and containers, consult the websites referenced in~\cref{subsec:about_docker}.
 
  \section{Usage examples}

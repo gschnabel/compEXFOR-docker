@@ -55,7 +55,7 @@ As a final introductory note, please do not hesitate to get in touch if you have
 All software components needed for installing and running the database are open-source.
 Feel free to inspect them and to modify them according to your specific needs.
 
- \section{Installation of the MonoDB EXFOR database}
+ \section{Installation of the MongoDB EXFOR database}
  \label{sec:install_EXFOR}
 
  During the installation process, several tasks are performed:
@@ -203,7 +203,7 @@ If you want to learn more about Docker and how to manage images and containers, 
   # with the data in EXFOR 
   client.close()
 \end{verbatim}
-The credentials \verb|user| and \verb|pw| passed to the function \verb|MongoClient| need to your choice of credentials during the setup in~\cref{subsec:build_db}.
+The credentials \verb|user| and \verb|pw| passed to the function \verb|MongoClient| need to match your choice of credentials during the setup in~\cref{subsec:build_db}.
 In the default setup, authentication is disabled and the \verb|username| and \verb|password| argument can be removed.
 
 Having the connection to the database established, let's see how we can retrieve a dataset with a specific subentry ID:

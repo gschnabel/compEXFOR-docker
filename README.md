@@ -1,4 +1,4 @@
-### Dockerfile for 'Yet another computational EXFOR database' (YacoX4)  
+### Dockerfile for 'Yet another computational EXFOR database' (YacoX4) - version 0.1.0 
 
 This repository contains the Dockerfile and
 supplementary files for the installation of
